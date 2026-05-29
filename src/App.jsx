@@ -819,7 +819,7 @@ export default function App() {
                       className="p-1 px-1.5 text-xs text-[var(--accent-color)] font-mono hover:bg-[var(--card-bg)] rounded transition-colors"
                       title="Reset Zoom"
                     >
-                      Reset Zoom
+                
                     </button>
                   </div>
 
