@@ -706,11 +706,11 @@ export default function App() {
                       <div 
                         key={game.id}
                         onClick={() => { setSelectedGame(game); setZoom(1); }}
-                        className="custom-card flex flex-col rounded-xl overflow-hidden cursor-pointer h-[320px]"
+                        className="custom-card flex flex-col rounded-xl overflow-hidden cursor-pointer h-[360px]"
                         style={{ contentVisibility: 'auto' }}
                       >
                         {/* Artwork container */}
-                        <div className="relative h-36 bg-neutral-950 flex-shrink-0 flex items-center justify-center border-b border-[var(--card-border)] overflow-hidden">
+                        <div className="relative h-56 bg-neutral-950 flex-shrink-0 flex items-center justify-center border-b border-[var(--card-border)] overflow-hidden">
                           {game.thumbnail ? (
                             <img 
                               src={game.thumbnail} 
