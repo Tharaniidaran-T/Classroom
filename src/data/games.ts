@@ -128,7 +128,7 @@ export const games: Game[] = [
     title: 'Bloons TD6 copy',
     description: 'A knockoff',
     url: 'https://script.google.com/macros/s/AKfycbxGkuDci2OlaMQBNYG1oQGdZSyJ86D3D39ZmTx2JFsqpxUObjTShnMUX8ApzlVzDRAY/exec',
-    thumbnail: 'https://img.freepik.com/premium-vector/tower-defense-3d-text-effect-editable-text-style-suitable-game-assets_412327-826.jpg',
+    thumbnail: 'bloons.jpg',
     category: 'Solo or Multiplayer.'
   },
   {
