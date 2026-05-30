@@ -44,6 +44,7 @@
         return parts;
       }
     </script>
+
     <style>
       body,
       html {
@@ -70,11 +71,6 @@
         background: rgba(255, 255, 255, 0.1);
         border-radius: 8px;
         display: inline-block;
-      }
-
-      /* Hide cursor over the game when pointer is locked */
-      #game canvas {
-        cursor: none;
       }
 
       /* Unlock hint overlay */
@@ -105,8 +101,28 @@
       <div id="first-time">First-time loading may take longer...</div>
     </div>
 
-    <!-- Hint shown while cursor is locked -->
     <div id="pointer-lock-hint">Press Esc to release cursor</div>
+
+    <script>
+      // ── Intercept iframe creation to inject allow-pointer-lock BEFORE
+      //    EmulatorJS appends its sandboxed iframe to the DOM ──────────────
+      const _origCreateElement = document.createElement.bind(document);
+      document.createElement = function (tag) {
+        const el = _origCreateElement(tag);
+        if (tag.toLowerCase() === "iframe") {
+          // Use a MutationObserver on the element itself to catch when
+          // EmulatorJS sets the sandbox attribute, then add allow-pointer-lock
+          const iframeObserver = new MutationObserver(() => {
+            const sandbox = el.getAttribute("sandbox");
+            if (sandbox !== null && !sandbox.includes("allow-pointer-lock")) {
+              el.setAttribute("sandbox", sandbox + " allow-pointer-lock");
+            }
+          });
+          iframeObserver.observe(el, { attributes: true, attributeFilter: ["sandbox"] });
+        }
+        return el;
+      };
+    </script>
 
     <script>
       var parts = getParts(
@@ -143,47 +159,14 @@
             "https://cdn.jsdelivr.net/gh/genizy/emu@master/loader.js";
           document.body.appendChild(script);
 
-          // ── Pointer Lock Setup ──────────────────────────────────────────
-          // EmulatorJS builds the canvas after loader.js runs, so we watch
-          // for it with a MutationObserver instead of querying immediately.
+          // ── Show/hide hint when pointer lock state changes ────────────
           const hint = document.getElementById("pointer-lock-hint");
-          const gameDiv = document.getElementById("game");
-
-          function attachPointerLock(canvas) {
-            // Lock cursor into the canvas on click
-            canvas.addEventListener("click", () => {
-              canvas.requestPointerLock =
-                canvas.requestPointerLock ||
-                canvas.mozRequestPointerLock ||
-                canvas.webkitRequestPointerLock;
-              if (canvas.requestPointerLock) canvas.requestPointerLock();
-            });
-          }
-
-          // Show/hide the "Press Esc" hint based on lock state
           document.addEventListener("pointerlockchange", () => {
-            const locked =
-              document.pointerLockElement ||
-              document.mozPointerLockElement ||
-              document.webkitPointerLockElement;
-            hint.classList.toggle("visible", !!locked);
+            hint.classList.toggle("visible", !!document.pointerLockElement);
           });
-
-          document.addEventListener("pointerlockerror", () => {
-            console.warn("Pointer lock request failed.");
+          document.addEventListener("mozpointerlockchange", () => {
+            hint.classList.toggle("visible", !!document.mozPointerLockElement);
           });
-
-          // Watch for the canvas being injected by EmulatorJS
-          const observer = new MutationObserver(() => {
-            const canvas = gameDiv.querySelector("canvas");
-            if (canvas) {
-              observer.disconnect();
-              attachPointerLock(canvas);
-            }
-          });
-
-          observer.observe(gameDiv, { childList: true, subtree: true });
-          // ── End Pointer Lock Setup ──────────────────────────────────────
         })
         .catch((error) => {
           console.error(error);
