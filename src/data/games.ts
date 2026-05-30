@@ -395,5 +395,13 @@ export const games: Game[] = [
     url: 'https://tharaniidaran-t.github.io/gartic-phone.github/',
     thumbnail: 'https://static.wikia.nocookie.net/gartic-phone/images/8/87/Garticphone.png/revision/latest/scale-to-width-down/250?cb=20230104102856',
     category: 'Multiplayer'
+  },
+  {
+    id: 'game-112',
+    title: 't',
+    description: '',
+    url: 'Acelawyer.html',
+    thumbnail: 'https://static.wikia.nocookie.net/gartic-phone/images/8/87/Garticphone.png/revision/latest/scale-to-width-down/250?cb=20230104102856',
+    category: 'Solo'
   }
 ];
