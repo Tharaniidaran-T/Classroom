@@ -11,6 +11,14 @@ export const games: Game[] = [
     category: 'Socialize'
   },
   {
+    id: 'game-1',
+    title: 'Shader Pilot',
+    description: 'Game that TTM made and It looks good Ig and cool ig. ',
+    url: 'https://tharaniidaran-t.github.io/shader-piolet/',
+    thumbnail: 'https://i.ytimg.com/vi/cpsY9WQxh5U/maxresdefault.jpg',
+    category: 'Game'
+  },
+  {
     id: 'game-111',
     title: 'Chatgpt (GROQ API)',
     description: 'Go to the doc and get a API or swap your model if it says max token limit reached. ',
